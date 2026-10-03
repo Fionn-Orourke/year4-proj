@@ -9,3 +9,4 @@ This index is maintained by Reference Automation V1.
 | REF-003 | An Introduction to Sigfox Technology – Basics, Architecture and Security Features | reference | null | https://circuitdigest.com/article/what-is-sigfox-basics-architecture-and-security-features | Unverified |
 | REF-004 | Cellular LPWAN connectivity \| IoT \| Adeunis | reference | null | https://www.adeunis.com/en/cellular-lpwan-connectivity-for-iot/ | Unverified |
 | REF-005 | Ireland - The Things Network | reference | null | https://www.thethingsnetwork.org/country/ireland/ | Unverified |
+| REF-006 | GSM in Wireless Communication - GeeksforGeeks | reference | null | https://www.geeksforgeeks.org/computer-networks/gsm-in-wireless-communication/ | Unverified |
