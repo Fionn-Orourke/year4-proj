@@ -1,3 +1,12 @@
+﻿---
+id: TEST-XXX
+type: test
+title: Test Title
+status: Planned
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+---
+
 # TEST-XXX - Test Title
 
 Date:
