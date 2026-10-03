@@ -1,7 +1,13 @@
-# FIND-XXX - Research Finding
+﻿---
+id: FIND-XXX
+type: research_finding
+title: Research Finding Title
+status: Draft
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+---
 
-Date:
-Status: Draft / Reviewed
+# FIND-XXX - Research Finding
 
 ## Question / Problem
 
