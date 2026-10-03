@@ -7,6 +7,40 @@ UA='year4-proj-reference-automation/1.0'
 DOI_RE=re.compile(r'(?:https?://(?:dx\.)?doi.org/|\bdoi:\s*|\b)(10\.\d{4,9}/[-._;()/:A-Z0-9]+)',re.I)
 URL_RE=re.compile(r'https?://[^\s<>]+',re.I)
 
+
+
+def decode_html(raw):
+    """Decode HTML using its declared charset where available."""
+    import codecs
+    head = raw[:4096]
+    if head.startswith(codecs.BOM_UTF8):
+        return raw.decode("utf-8-sig")
+    if head.startswith((codecs.BOM_UTF16_LE, codecs.BOM_UTF16_BE)):
+        return raw.decode("utf-16")
+    match = re.search(
+        rb'<meta[^>]+charset\s*=\s*["\']?\s*([a-zA-Z0-9._-]+)',
+        head,
+        re.I,
+    )
+    if not match:
+        match = re.search(
+            rb'<meta[^>]+content=["\'][^"\']*charset=([a-zA-Z0-9._-]+)',
+            head,
+            re.I,
+        )
+    if match:
+        try:
+            return raw.decode(match.group(1).decode("ascii"), "replace")
+        except (LookupError, UnicodeDecodeError):
+            pass
+    return raw.decode("utf-8", "replace")
+
+
+def markdown_cell(value):
+    """Keep values inside a single Markdown table cell."""
+    value = str(value or "")
+    return value.replace("\r", "").replace("\n", "<br>").replace("|", r"\|")
+
 class MetaParser(HTMLParser):
     def __init__(self): super().__init__(); self.meta={}; self.title=[]; self.intitle=False
     def handle_starttag(self,tag,attrs):
@@ -51,7 +85,7 @@ def doi_lookup(doi):
 
 def url_lookup(url):
     try:
-        p=MetaParser(); p.feed(request(url).decode('utf-8','replace')); m=p.meta
+        p=MetaParser(); p.feed(decode_html(request(url))); m=p.meta
         doi=m.get('citation_doi') or m.get('dc.identifier'); doi=re.sub(r'^https?://doi.org/','',doi,flags=re.I).lower() if doi else None
         return dict(title=m.get('citation_title') or m.get('dc.title') or m.get('og:title') or ''.join(p.title).strip() or None,authors=[m[k] for k in ('citation_author','dc.creator','author') if k in m],publisher=m.get('citation_publisher') or m.get('dc.publisher'),container=None,year=year(m.get('citation_date') or m.get('dc.date') or m.get('date')),doi=doi,url=url,source_type='web')
     except (urllib.error.URLError,TimeoutError,ValueError): return None
@@ -103,10 +137,29 @@ def record(rid,m,date):
     return f'''---\nid: {rid}\ntype: reference\ntitle: {q(m.get('title') or '[Not established]')}\nstatus: Unverified\ncreated: {date}\nupdated: {date}\nsource_type: {m.get('source_type','web')}\ndoi: {q(m.get('doi'))}\nurl: {q(m.get('url'))}\ndate_accessed: {date}\n---\n\n## IEEE Citation\n\n{citation(m,date)}\n\n## Summary\n\n[Not assessed by Reference Automation V1]\n\n## What This Source Establishes\n\n[Not assessed by Reference Automation V1]\n\n## Limitations\n\n[Not assessed by Reference Automation V1]\n\n## Relevant Sections\n\n[Not assessed by Reference Automation V1]\n\n## Used By\n\n[No relationships established by bibliographic processing]\n\n## Verification Status\n\nBibliographic metadata retrieved or parsed by Reference Automation V1. Research claims, limitations, and interpretation have not been assessed.\n\n## Metadata\n\n- Authors: {('; '.join(m.get('authors',[])) or '[Not established]')}\n- Publisher: {m.get('publisher') or '[Not established]'}\n- Container: {m.get('container') or '[Not established]'}\n- Year: {m.get('year') or '[Not established]'}\n'''
 def valid_text(t): return all(h in t for h in ('## IEEE Citation','## Summary','## What This Source Establishes','## Limitations','## Relevant Sections','## Used By','## Verification Status'))
 def index(ref):
-    rows=['# References Index','','This index is maintained by Reference Automation V1.','','| ID | Title | Type | DOI | URL | Status |','|---|---|---|---|---|---|']
+    rows = [
+        '# References Index',
+        '',
+        'This index is maintained by Reference Automation V1.',
+        '',
+        '| ID | Title | Type | DOI | URL | Status |',
+        '|---|---|---|---|---|---|',
+    ]
+
     for p in sorted(ref.glob('REF-*.md')):
-        f=front(p); rows.append('| '+' | '.join(f.get(k,'') for k in ('id','title','type','doi','url','status'))+' |')
-    (ref/'INDEX.md').write_text('\n'.join(rows)+'\n',encoding='utf8')
+        f = front(p)
+        values = (
+            f.get(k, '')
+            for k in ('id', 'title', 'type', 'doi', 'url', 'status')
+        )
+        rows.append(
+            '| ' + ' | '.join(markdown_cell(v) for v in values) + ' |'
+        )
+
+    (ref / 'INDEX.md').write_text(
+        '\n'.join(rows) + '\n',
+        encoding='utf8',
+    )
 
 def process(root,dry=False):
     doc=root/'Documentation-repo' if (root/'Documentation-repo').is_dir() else root; inbox=doc/'references/inbox/REFERENCES.md'; ref=doc/'references'; text=inbox.read_text(encoding='utf8') if inbox.exists() else ''
