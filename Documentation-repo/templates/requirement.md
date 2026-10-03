@@ -1,6 +1,13 @@
-# REQ-XXX - Requirement Title
+﻿---
+id: REQ-XXX
+type: requirement
+title: Requirement Title
+status: Proposed
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+---
 
-Status: Proposed / Accepted / Implemented / Tested / Verified / Rejected / Superseded
+# REQ-XXX - Requirement Title
 
 ## Requirement
 
