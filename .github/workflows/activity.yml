@@ -25,10 +25,10 @@ jobs:
           python-version: '3.12'
 
       - name: Run activity automation tests
-        run: python -m unittest discover -s tests/activity -p 'test_*.py'
+        run: python -m unittest discover -s Documentation-repo/tests/activity -p 'test_*.py'
 
       - name: Generate activity drafts
-        run: python tools/activity/processor.py --root .
+        run: python Documentation-repo/tools/activity/processor.py --root Documentation-repo
 
       - name: Commit generated activity records
         run: |
@@ -39,6 +39,6 @@ jobs:
           git config user.name 'Activity Automation V1'
           git config user.email 'actions@users.noreply.github.com'
 
-          git add development/ACT-*.md
+          git add Documentation-repo/development/ACT-*.md
           git commit -m 'docs: generate activity records'
           git push
