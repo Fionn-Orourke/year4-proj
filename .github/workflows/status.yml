@@ -1,0 +1,57 @@
+name: Project Status Automation V1
+
+on:
+  push:
+    paths:
+      - 'Documentation-repo/development/**'
+      - 'Documentation-repo/requirements/**'
+      - 'Documentation-repo/research/findings/**'
+      - 'Documentation-repo/decisions/**'
+      - 'Documentation-repo/testing/**'
+      - 'Documentation-repo/tools/status/**'
+      - 'Documentation-repo/tests/status/**'
+      - 'Documentation-repo/PROJECT_STATUS.md'
+      - '.github/workflows/status.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run status automation tests
+        run: |
+          python -m unittest discover \
+            -s Documentation-repo/tests/status \
+            -p 'test_*.py'
+
+      - name: Generate project status draft
+        run: |
+          python Documentation-repo/tools/status/processor.py \
+            --root Documentation-repo
+
+      - name: Commit generated status draft
+        run: |
+          if git diff --quiet -- Documentation-repo/PROJECT_STATUS_DRAFT.md; then
+            exit 0
+          fi
+
+          git config user.name 'Project Status Automation V1'
+          git config user.email 'actions@users.noreply.github.com'
+
+          git add Documentation-repo/PROJECT_STATUS_DRAFT.md
+          git commit -m 'docs: update project status draft'
+          git push
