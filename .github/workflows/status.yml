@@ -14,6 +14,10 @@ on:
       - '.github/workflows/status.yml'
   workflow_dispatch:
 
+concurrency:
+  group: automation-main
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
