@@ -1,4 +1,5 @@
 name: Reference Automation V1
+
 on:
   push:
     paths:
@@ -8,25 +9,50 @@ on:
       - 'Documentation-repo/requirements-dev.txt'
       - '.github/workflows/references.yml'
   workflow_dispatch:
+
+concurrency:
+  group: automation-main
+  cancel-in-progress: false
+
 permissions:
   contents: write
+
 jobs:
   references:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-        with: {fetch-depth: 0}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - name: Test
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Synchronise with latest main
+        run: |
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run reference automation tests
         run: python -m unittest discover -s Documentation-repo/tests/references -p 'test_*.py'
-      - name: Process
+
+      - name: Process references
         run: python Documentation-repo/tools/references/processor.py --root .
+
       - name: Commit generated records
         run: |
-          if git diff --quiet; then exit 0; fi
+          if git diff --quiet; then
+            exit 0
+          fi
+
           git config user.name 'Reference Automation V1'
           git config user.email 'actions@users.noreply.github.com'
+
           git add Documentation-repo/references
           git commit -m 'docs: process reference inbox'
           git push
