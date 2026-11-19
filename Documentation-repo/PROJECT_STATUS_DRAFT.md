@@ -22,11 +22,11 @@ Automation system and project documentation infrastructure.
 
 ## Recently Completed
 
+- ACT-015 — ACT-015 - Development session (2026-11-19)
 - ACT-010 — ACT-010 - Development session (2026-10-12)
+- ACT-014 — ACT-014 - Development session (2026-10-12)
 - ACT-006 — ACT-006 - Development session (2026-10-07)
 - ACT-009 — ACT-009 - Development session (2026-10-07)
-- ACT-003 — ACT-003 - Development session (2026-10-06)
-- ACT-005 — ACT-005 - Development session (2026-10-06)
 
 ## Blockers
 
