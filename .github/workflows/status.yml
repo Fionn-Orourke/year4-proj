@@ -3,19 +3,14 @@ name: Project Status Automation V1
 on:
   push:
     paths:
-      - 'Documentation-repo/development/**'
-      - 'Documentation-repo/requirements/**'
-      - 'Documentation-repo/research/findings/**'
-      - 'Documentation-repo/decisions/**'
-      - 'Documentation-repo/testing/**'
+      - 'Documentation-repo/**'
       - 'Documentation-repo/tools/status/**'
       - 'Documentation-repo/tests/status/**'
-      - 'Documentation-repo/PROJECT_STATUS.md'
       - '.github/workflows/status.yml'
   workflow_dispatch:
 
 concurrency:
-  group: automation-main
+  group: status-automation-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -31,11 +26,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Synchronise with latest main
+      - name: Synchronise with latest branch
         run: |
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
+          git fetch origin "${GITHUB_REF_NAME}"
+          git checkout "${GITHUB_REF_NAME}"
+          git pull --ff-only origin "${GITHUB_REF_NAME}"
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -48,20 +43,21 @@ jobs:
             -s Documentation-repo/tests/status \
             -p 'test_*.py'
 
-      - name: Generate project status draft
+      - name: Generate project status
         run: |
           python Documentation-repo/tools/status/processor.py \
             --root Documentation-repo
 
-      - name: Commit generated status draft
+      - name: Commit generated status
         run: |
-          if git diff --quiet -- Documentation-repo/PROJECT_STATUS_DRAFT.md; then
+          if git diff --quiet -- Documentation-repo/PROJECT_STATUS.md; then
             exit 0
           fi
 
           git config user.name 'Project Status Automation V1'
           git config user.email 'actions@users.noreply.github.com'
 
-          git add Documentation-repo/PROJECT_STATUS_DRAFT.md
-          git commit -m 'docs: update project status draft'
-          git push
+          git add Documentation-repo/PROJECT_STATUS.md
+          git commit -m 'docs: update project status'
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
