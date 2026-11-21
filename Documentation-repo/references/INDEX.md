@@ -10,3 +10,4 @@ This index is maintained by Reference Automation V1.
 | REF-004 | Cellular LPWAN connectivity \| IoT \| Adeunis | reference | null | https://www.adeunis.com/en/cellular-lpwan-connectivity-for-iot/ | Unverified |
 | REF-005 | Ireland - The Things Network | reference | null | https://www.thethingsnetwork.org/country/ireland/ | Unverified |
 | REF-006 | GSM in Wireless Communication - GeeksforGeeks | reference | null | https://www.geeksforgeeks.org/computer-networks/gsm-in-wireless-communication/ | Unverified |
+| REF-007 | Supplied project history and recovery notes - LoRa + LTE Hiking SOS Tracker | reference | null | null | Unverified |

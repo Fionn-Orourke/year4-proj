@@ -8,6 +8,23 @@ The repository is used to maintain a traceable record of the project from initia
 
 ---
 
+## Reconstructed Project Documentation
+
+- [Project overview](PROJECT_OVERVIEW.md)
+- [Ideas register](ideas/IDEAS-REGISTER.md)
+- [Recovered requirements draft](requirements/REQUIREMENTS-DRAFT.md)
+- [Hardware investigation](hardware/HARDWARE-INVESTIGATION.md)
+- [Software investigation](software/SOFTWARE-INVESTIGATION.md)
+- [Decision log](decisions/DECISION-LOG.md)
+- [Test plan](testing/TEST-PLAN.md)
+- [Problems and risks](risks/PROBLEM-RISK-REGISTER.md)
+- [Project timeline](progress/PROJECT-TIMELINE.md)
+- [Outstanding confirmations](OUTSTANDING-CONFIRMATIONS.md)
+- [Feature Versions](features/README.md)
+- [Master](master/README.md)
+
+No component, requirement or architecture is approved for a Feature Version or Master by this reconstruction.
+
 ## Project Status
 
 **Current Feature / Version:** Not yet defined
@@ -32,7 +49,8 @@ Ideas are not automatically part of the project.
 
 ### Requirements
 
-equirements/
+
+equirements/
 
 Project requirements and their verification status.
 
@@ -40,12 +58,15 @@ Project requirements and their verification status.
 
 ### Research
 
-esearch/
+
+esearch/
 
 Research findings and supporting sources.
 
-- esearch/findings/ — research findings
-- esearch/references/ — individual source records
+- 
+esearch/findings/ ï¿½ research findings
+- 
+esearch/references/ ï¿½ individual source records
 
 ---
 
@@ -107,8 +128,8 @@ Weekly and periodic project progress records.
 
 Selected records of AI assistance.
 
-- i/drafts/ — AI records awaiting review
-- i/published/ — AI records reviewed and approved for permanent documentation
+- i/drafts/ ï¿½ AI records awaiting review
+- i/published/ ï¿½ AI records reviewed and approved for permanent documentation
 
 AI assistance is treated as a supporting tool rather than as the project itself.
 
@@ -176,11 +197,11 @@ Jira is used to manage planned project work.
 
 The intended distinction is:
 
-**Jira** — what needs to be done
+**Jira** ï¿½ what needs to be done
 
-**Git** — what changed
+**Git** ï¿½ what changed
 
-**Documentation** — what happened, why, and what evidence supports it
+**Documentation** ï¿½ what happened, why, and what evidence supports it
 
 ---
 

@@ -4,17 +4,18 @@
 
 ## Current Phase
 
-Project setup and initial engineering investigation.
+Historical reconstruction and engineering investigation.
 
 ## Current Focus
 
-Automation system and project documentation infrastructure.
+LoRa + LTE hiking SOS tracker: documentation, hardware history, software architecture and open verification work.
 
 ## Current Objectives
 
-- Establish reliable project documentation automation.
-- Maintain traceable engineering records.
-- Prepare the project system for engineering development.
+- Maintain traceable project history and evidence.
+- Compare historical and working cellular/LoRa directions.
+- Record unresolved communication, power, antenna and safety decisions.
+- Preserve the boundary between Ideas, drafts, Feature Versions and Master.
 
 ## In Progress
 

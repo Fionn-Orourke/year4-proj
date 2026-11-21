@@ -4,17 +4,18 @@
 
 ## Current Phase
 
-Project setup and initial engineering investigation.
+Historical reconstruction and engineering investigation.
 
 ## Current Focus
 
-[What I am currently working on]
+LoRa + LTE hiking SOS tracker documentation: hardware, software, communication fallback, power, GNSS and test planning.
 
 ## Current Objectives
 
-- [Objective]
-- [Objective]
-- [Objective]
+- Maintain a traceable project history and evidence register.
+- Compare historical and current cellular/LoRa components.
+- Document unresolved hardware, network and safety decisions.
+- Prepare test plans without claiming unperformed tests.
 
 <!-- MANUAL:PROJECT_DIRECTION:END -->
 

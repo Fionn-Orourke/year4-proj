@@ -58,7 +58,9 @@ The project still needs to determine:
 
 ## Current Technical Interest
 
-**LoRa / Meshtastic** is currently an important technical direction, but the final communication architecture has not been approved.
+**LoRa / Meshtastic** remains an important technical direction, but the final communication architecture has not been approved.
+
+The recovered project direction also includes LTE/SMS fallback, GNSS position reporting and battery operation for a hiking SOS application. Waveshare Core1262-868M and Waveshare ESP32-S3-A7670E-4G are current working directions only. Neither is approved for a Feature Version or Master.
 
 Other technologies may be investigated if research shows that they are more appropriate for the eventual requirements.
 
